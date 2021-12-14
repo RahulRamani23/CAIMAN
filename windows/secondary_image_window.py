@@ -85,7 +85,7 @@ class SecondaryImageWindow(QMainWindow):
         else:
             image = image.astype(np.uint8)
 
-        self.image.setImage(image, autoLevels=False)
+        self.image.setImage(image)
 
     def show_image(self):
         self.update_image_plot(self.controller.secondary_image[0, 0])

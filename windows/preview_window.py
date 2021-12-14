@@ -453,10 +453,11 @@ class PreviewWindow(QMainWindow):
                     self.right_image_viewbox.addItem(outline_item)
 
     def update_secondary(self, pos):
-        pos = self.left_image_viewbox.mapSceneToView(pos)
-        if not self.controller.drawing_mask:
-            # Plot cursor on secondary image
-            self.controller.plot_cursor(pos.x(), pos.y(), self.left_image.height(), self.left_image.width())
+        if len(self.controller.secondary_image) > 0:
+            pos = self.left_image_viewbox.mapSceneToView(pos)
+            if not self.controller.drawing_mask:
+                # Plot cursor on secondary image
+                self.controller.plot_cursor(pos.x(), pos.y(), self.left_image.height(), self.left_image.width())
 
     def plot_clicked(self, event):
         # get x-y coordinates of where the user clicked

@@ -1,14 +1,8 @@
-import os
-import numpy as np
-import tifffile
-import cv2
-import csv
-import scipy
 import platform
 from PIL import Image
 
 from controller import utilities
-from windows.param_window import ParamWindow
+from windows.param_window.param_window import ParamWindow
 from windows.preview_window import PreviewWindow
 from windows.cnn_training_window import CNNTrainingWindow
 from windows.dataset_editing_window import DatasetEditingWindow
