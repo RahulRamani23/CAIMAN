@@ -315,7 +315,8 @@ class GUIController():
                     self.secondary_image_max = 1
 
                 print("Video max: {}.".format(self.video_max))
-                self.secondary_image = self.secondary_image.reshape(1, *self.secondary_image.shape)
+                if len(self.secondary_image.shape) == 3:
+                    self.secondary_image = self.secondary_image.reshape(1, *self.secondary_image.shape)
                 self.secondary_image = self.secondary_image.transpose((0, 1, 3, 2))
                 self.secondary_image_frames = self.secondary_image.shape[1]
 
