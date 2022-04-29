@@ -294,32 +294,35 @@ class GUIController():
         video_paths = QFileDialog.getOpenFileNames(self.param_window, 'Select Image.', '', 'Videos (*.tiff *.tif)')[0]
         # import the videos
         if video_paths is not None and len(video_paths) > 0:
-            video = tifffile.memmap(video_paths[0])
-            self.secondary_image = video
+            try:
+                video = tifffile.memmap(video_paths[0])
+                self.secondary_image = video
 
-            # figure out the dynamic range of the video
-            max_value = np.amax(self.secondary_image)
+                # figure out the dynamic range of the video
+                max_value = np.amax(self.secondary_image)
 
-            if max_value > 2047:
-                self.secondary_image_max = 4095
-            elif max_value > 1023:
-                self.secondary_image_max = 2047
-            elif max_value > 511:
-                self.secondary_image_max = 1023
-            elif max_value > 255:
-                self.secondary_image_max = 511
-            elif max_value > 1:
-                self.secondary_image_max = 255
-            else:
-                self.secondary_image_max = 1
+                if max_value > 2047:
+                    self.secondary_image_max = 4095
+                elif max_value > 1023:
+                    self.secondary_image_max = 2047
+                elif max_value > 511:
+                    self.secondary_image_max = 1023
+                elif max_value > 255:
+                    self.secondary_image_max = 511
+                elif max_value > 1:
+                    self.secondary_image_max = 255
+                else:
+                    self.secondary_image_max = 1
 
-            print("Video max: {}.".format(self.video_max))
+                print("Video max: {}.".format(self.video_max))
+                self.secondary_image = self.secondary_image.reshape(1, *self.secondary_image.shape)
+                self.secondary_image = self.secondary_image.transpose((0, 1, 3, 2))
+                self.secondary_image_frames = self.secondary_image.shape[1]
 
-            self.secondary_image = self.secondary_image.transpose((0, 1, 3, 2))
-            self.secondary_image_frames = self.secondary_image.shape[0]
-            print(self.secondary_image_frames)
-
-            self.secondary_image_window.show_image()
+                self.secondary_image_window.show_image()
+            except Exception as e:
+                self.secondary_image = []
+                print(e)
 
     def plot_cursor(self, x, y, height, width):
         self.secondary_image_window.plot_cursor(x, y, height, width)
@@ -1036,6 +1039,7 @@ class GUIController():
 
         # update the parameter
         if param in self.controller.params.keys():
+            print(self.controller.params['num_components'])
             self.controller.params[param] = value
         elif param in self.gui_params.keys():
             self.gui_params[param] = value

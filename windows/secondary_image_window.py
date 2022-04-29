@@ -100,7 +100,7 @@ class SecondaryImageWindow(QMainWindow):
         self.cursor = None
 
     def update_image(self):
-        self.update_image_plot(self.controller.secondary_image[self.controller.secondary_z, 0])
+        self.update_image_plot(self.controller.secondary_image[0, self.controller.secondary_z])
 
     def set_z(self, i):
         self.controller.secondary_z = int(i)
@@ -120,5 +120,4 @@ class SecondaryImageWindow(QMainWindow):
             self.image_viewbox.addItem(self.cursor)
 
         self.cursor.setPos(x, y)
-        self.cursor.setDynamicRangeLimit(False)
 
